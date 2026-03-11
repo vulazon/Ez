@@ -1,7 +1,6 @@
 local players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 local activeLoops = {}
-local Remotes = {}
 local LOCKED_CHARACTER = "Hong Lu"
 local SLOCKED_CHARACTER = "Lei Heng"
 local LOCKED_IDENTITY = "LCB Sinner"
@@ -31,20 +30,6 @@ if ssuccess then
 		table.insert(STARGET, name)
 	end
 end
-
-local csuccess, cresult = pcall(function()
-	return HttpService:GetAsync("https://raw.githubusercontent.com/Termelia/evildoers/refs/heads/main/rebel")
-end)
-
-if csuccess then
-	local decoded = HttpService:JSONDecode(cresult)
-	LOCKED_CHARACTER = decoded.LOCKED_CHARACTER or LOCKED_CHARACTER
-	LOCKED_IDENTITY = decoded.LOCKED_IDENTITY or LOCKED_IDENTITY
-	SLOCKED_CHARACTER = decoded.SLOCKED_CHARACTER or SLOCKED_CHARACTER
-	SLOCKED_IDENTITY = decoded.SLOCKED_IDENTITY or SLOCKED_IDENTITY
-end
-
-
 
 local function lockAttributes(plr, playerName, lockedChar, lockedIdent)
 	if not plr then return end
@@ -116,20 +101,20 @@ function NoMoreAura()
 		end
 	end
 
-	--for _, name in ipairs(STARGET) do
-	--	local plr = players:FindFirstChild(name)
-	--	if plr then
-	--		kickstartS(plr)
-	--	else
-	--		local conn
-	--		conn = players.PlayerAdded:Connect(function(player)
-	--			if player.Name == name then
-	--				conn:Disconnect()
-	--				kickstartS(player)
-	--			end
-	--		end)
-	--	end
-	--end
+	for _, name in ipairs(STARGET) do
+		local plr = players:FindFirstChild(name)
+		if plr then
+			kickstartS(plr)
+		else
+			local conn
+			conn = players.PlayerAdded:Connect(function(player)
+				if player.Name == name then
+					conn:Disconnect()
+					kickstartS(player)
+				end
+			end)
+		end
+	end
 end
 
-NoMoreAura()
+return NoMoreAura
