@@ -117,4 +117,4 @@ function NoMoreAura()
 	end
 end
 
-return NoMoreAura
+NoMoreAura()
